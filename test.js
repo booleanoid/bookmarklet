@@ -1,5 +1,5 @@
 ﻿export default () => {
-    var sheet_id = '1zaa7nDcOAGI_9rZaQo6kpdCo0mLizE38dzJXQvdlB68'
+    var sheet_id = '1zaa7nDcOAGI_9rZaQo6kpdCo0mLizE38dzJXQvdlB68';
     var spreadsheet = SpreadsheetApp.openById(sheet_id); // SHEET_IDにご自身のスプレッドシートIDを入力
     var sheet = spreadsheet.getActiveSheet();
     var values = sheet.getRange('A1:C').getValues();
