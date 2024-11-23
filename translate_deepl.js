@@ -4,10 +4,11 @@
     navigator.clipboard.writeText(`[${title}](${url})`).then();
 
 
+    /*
     const d = document.getElementsByClassName("semi-table-row");
     let str = "";
     alert(d);
-    /*
+    
     for (const v in d) {
       let a_l = 0;
       if(d[v].getElementsByClassName("anchor-info")!=null){
