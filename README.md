@@ -12,3 +12,8 @@
 - OS: Windows 11 Pro
 - CPU: Intel(R) Core(TM) i7-11700 @ 2.50GHz
 - ブラウザ：Chrome 129.0.6668.58
+
+## ブックマークレット使用方法
+```
+javascript:import("https://booleanoid.github.io/bookmarklet/xxx.js").then(m=>m.default());
+```
