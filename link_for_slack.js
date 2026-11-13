@@ -28,27 +28,6 @@ export const buildClipboardTexts = ({ url, number, title }) => ({
     plain: `#${number} ${title}\n${url}`,
 });
 
-const showToast = (message, isError = false) => {
-    const toast = document.createElement('div');
-    toast.textContent = message;
-    Object.assign(toast.style, {
-        position: 'fixed',
-        top: '16px',
-        right: '16px',
-        zIndex: '2147483647',
-        maxWidth: '480px',
-        padding: '10px 16px',
-        borderRadius: '6px',
-        background: isError ? '#cf222e' : '#1f883d',
-        color: '#ffffff',
-        font: '14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)',
-        wordBreak: 'break-all',
-    });
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
-};
-
 const writeClipboard = ({ html, plain }) => {
     if (typeof ClipboardItem === 'undefined') {
         return navigator.clipboard.writeText(plain);
@@ -64,17 +43,19 @@ const writeClipboard = ({ html, plain }) => {
 export default () => {
     const issue = parseIssueUrl(document.URL);
     if (!issue) {
-        showToast('GitHub の issue ページで実行してください', true);
+        alert('GitHub の issue ページで実行してください。\n（例: https://github.com/owner/repo/issues/123）');
         return;
     }
 
     const title = extractTitle(document.title);
     const texts = buildClipboardTexts({ ...issue, title });
 
-    writeClipboard(texts)
-        .then(() => showToast(`コピーしました: #${issue.number} ${title}`))
+    // navigator.clipboard が無い環境で同期的に例外が出ても catch で拾えるよう Promise で包む
+    Promise.resolve()
+        .then(() => writeClipboard(texts))
+        .then(() => alert(`コピーしました。\n\n${texts.plain}`))
         .catch((error) => {
             console.error(error);
-            showToast('コピーに失敗しました', true);
+            alert(`クリップボードにコピーできませんでした。\nページ内を一度クリックしてから、もう一度実行してください。\n\n理由: ${error && error.message ? error.message : error}`);
         });
 };
